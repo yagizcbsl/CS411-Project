@@ -182,9 +182,28 @@ def Checker(stuID, stuIDB, msgID, decmsg):
 
 #######################################################
 
+def sessionKeyGen(OTK_A_Pr,EK_B_Pub):
+    T = OTK_A_Pr * EK_B_Pub
+    U =  T.x.to_bytes((T.x.bit_length()+7)//8,byteorder="big") + T.y.to_bytes((T.y.bit_length()+7)//8,byteorder="big") +  "ToBeOrNotToBe".encode()
+    return SHA3_256.new().update(U).digest()
+
+def keyDerivationFunction(KDF_Key):
+    enc = KDF_Key.to_bytes((KDF_Key.bit_length()+7)//8,byteorder="big") + "YouTalkingToMe".encode()
+    K_ENC = SHA3_256.new().update(enc).digest()
+    
+    hmac = KDF_Key.to_bytes((KDF_Key.bit_length()+7)//8,byteorder="big") + K_ENC.to_bytes((K_ENC.bit_length()+7)//8,byteorder="big") + "YouCannotHandleTheTruth".encode()
+    K_HMAC = SHA3_256.new().update(hmac).digest()
+    
+    nxt = hmac = K_ENC.to_bytes((K_ENC.bit_length()+7)//8,byteorder="big") + K_HMAC.to_bytes((K_HMAC.bit_length()+7)//8,byteorder="big") + "MayTheForceBeWithYou".encode()
+    K_NEXT = SHA3_256.new().update(nxt).digest()
+    
+    return K_ENC, K_HMAC, K_NEXT
+    
 h,s = SignGen(stuID.to_bytes((stuID.bit_length()+7)//8,byteorder="big"),E,IKey_Pr)
 
 PseudoSendMsg(h,s)
 message = ReqMsg(h,s)
 print(message)
+
+
 
