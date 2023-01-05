@@ -69,8 +69,8 @@ def IKRegReq(h,s,x,y):
     if((response.ok) == False): print(response.json())
     
 
-IKey_Pr = 44661277310780247524718275969077815626218888315083606580828598921329380822817
-IKey_Pub = Point(0xa4b8e8aeaefe660d218c985b9285c1aa4b1b0a9e9717a0487dfb3bd46083f291,0x21ad20ea0d54b1316ae1efccfaa1f9358bc6023bc8d16ddf5f196f10fc545df2,E)
+IKey_Pr = 113359040262378011876979282979269298605265302723663430739085469103263950939267
+IKey_Pub = Point(int("0xd55018dd539f2f7e089cafcd37a8cb0a8ac9efd7cdac6d263c0fd11bded38df1",base=16),int("0xa48ee99fdf1afa837905224bec9d9283c545d9427b248541da32527e20a47ba5",base=16),E)
 
 def IKRegVerify(code):
     mes = {'ID':stuID, 'CODE': code}
@@ -226,18 +226,18 @@ def registerOTKS(SPK_Pr,SPK_S_Pub):
 # # # Sending message to the server
 # IKRegReq(h,s,IKey_Pub.x,IKey_Pub.y)
 
-# # Key obtained
-# code = 151641
+# Key obtained
+# code = 735701
 
-# # # # Verifying account
-# IKRegVerify(code)
+# # # # # Verifying account
+# # IKRegVerify(code)
 
-# # Resetting IK
-# rcode = 536779
-# ResetIK(rcode)
+# # # # # Resetting IK
+rcode = 789995
+ResetIK(rcode)
 
 
-# # Signed Pre-Key (SPK)
+# # # # Signed Pre-Key (SPK)
 # SPK_Pr , SPK_Pub = KeyGeneration()
 
 # print(SPK_Pr,SPK_Pub)
@@ -252,24 +252,24 @@ def registerOTKS(SPK_Pr,SPK_S_Pub):
 # print(SPK_S_Pub)
 
 
-SPK_Pr = 25429662388130856894669260659088020478616535956178361204168665860343942620342
-SPK_Pub = Point(int("0x56039552554e005e67202c48c6df5fbcb86e25b44f50b7827d78ef12192df74",base=16),int("0x8bc951a0e5f6c98dcefb3c88a642482aa28de828a1e535f161f6bc0a29a10319",base = 16),E)
-SPK_h = 64521533101452177714359315443610335808341116918386214080235428626578690128898
-SPK_s = 5219673971356277040138267026585764193505402167723150917310925409603460713471
+SPK_Pr = 25777555511670854268982747702448570072084603082464838247541202388132067723990
+SPK_Pub = Point(int("0x2743edb2a487d13edefc6df7930f730d444a7f15d5317ad960edcc7eecfeaca5",base=16),int("0x33ac680fa32904d43e9f7a9938adb53cb8f88d49bd238108afb99b27e9bdce9f",base = 16),E)
+SPK_h = 18336420386507990120885529281772835950614099897813848735430773108579957236079
+SPK_s = 98519982661898934415885465966910813994081601479009468940052328733161983709814
 
 #SPK_S_Pub = (56639757923349849611343281406087185169440496922691141801327518124754702485302, 60393615797913336386435708272243523005927060424158141789698645816131859206963, 2004815621613086637054156671164926606881482163725952634282766566742357541143, 92501045717019568033017955368148119256648394943534684117874681618917739411346)
-SPK_S_Pub = Point(56639757923349849611343281406087185169440496922691141801327518124754702485302,60393615797913336386435708272243523005927060424158141789698645816131859206963,E)
+SPK_S_Pub = Point(85040781858568445399879179922879835942032506645887434621361669108644661638219,46354559534391251764410704735456214670494836161052287022185178295305851364841,E)
 
-#  # Resetting SPK and OTKS
+# # Resetting SPK and OTKS
 # h,s = SignatureGeneration(stuID,IKey_Pr)
+# #ResetOTK(h,s)
 # ResetSPK(h,s)
+#One-time Pre-Key (OTK)
 
-# One-time Pre-Key (OTK)
-
-# Generating HMAC Key
+# # Generating HMAC Key
 
 # HMAC_Key = HMACKeyGen(SPK_Pr,SPK_S_Pub)
-# print(HMAC_Key)
+# # # print(HMAC_Key)
 
 # OTKS = []
 # HMACIS = []
@@ -282,7 +282,82 @@ SPK_S_Pub = Point(56639757923349849611343281406087185169440496922691141801327518
 #     OTKS.append((OTK_Pr,OTK_Pub))
 #     HMACIS.append(HMACI)
     
-# print(OTKS)
-# print(HMACIS)
+# # print(OTKS)
+# # print(HMACIS)
+
+
+# def PseudoSendMsg(h,s):
+#     mes = {'ID':stuID, 'H': h, 'S': s}
+#     print("Sending message is: ", mes)
+#     response = requests.put('{}/{}'.format(API_URL, "PseudoSendMsg"), json = mes)		
+#     print(response.json())
+
+# #Get your messages. server will send 1 message from your inbox
+# def ReqMsg(h,s):
+#     mes = {'ID':stuID, 'H': h, 'S': s}
+#     print("Sending message is: ", mes)
+#     response = requests.get('{}/{}'.format(API_URL, "ReqMsg"), json = mes)	
+#     print(response.json())	
+#     if((response.ok) == True): 
+#         res = response.json()
+#         return res["IDB"], res["OTKID"], res["MSGID"], res["MSG"], res["EK.X"], res["EK.Y"]
+
+# #Get the list of the deleted messages' ids.
+# def ReqDelMsg(h,s):
+#     mes = {'ID':stuID, 'H': h, 'S': s}
+#     print("Sending message is: ", mes)
+#     response = requests.get('{}/{}'.format(API_URL, "ReqDelMsgs"), json = mes)      
+#     print(response.json())      
+#     if((response.ok) == True): 
+#         res = response.json()
+#         return res["MSGID"]
+
+# #If you decrypted the message, send back the plaintext for checking
+# def Checker(stuID, stuIDB, msgID, decmsg):
+#     mes = {'IDA':stuID, 'IDB':stuIDB, 'MSGID': msgID, 'DECMSG': decmsg}
+#     print("Sending message is: ", mes)
+#     response = requests.put('{}/{}'.format(API_URL, "Checker"), json = mes)		
+#     print(response.json())
+
+# #######################################################
+
+# def sessionKeyGen(OTK_A_Pr,EK_B_Pub):
+#     T = OTK_A_Pr * EK_B_Pub
+#     U =  T.x.to_bytes((T.x.bit_length()+7)//8,byteorder="big") + T.y.to_bytes((T.y.bit_length()+7)//8,byteorder="big") +  "ToBeOrNotToBe".encode()
+#     return SHA3_256.new().update(U).digest()
+
+# def keyDerivationFunction(KDF_Key):
+#     enc = KDF_Key.to_bytes((KDF_Key.bit_length()+7)//8,byteorder="big") + "YouTalkingToMe".encode()
+#     K_ENC = SHA3_256.new().update(enc).digest()
     
+#     hmac = KDF_Key.to_bytes((KDF_Key.bit_length()+7)//8,byteorder="big") + K_ENC.to_bytes((K_ENC.bit_length()+7)//8,byteorder="big") + "YouCannotHandleTheTruth".encode()
+#     K_HMAC = SHA3_256.new().update(hmac).digest()
+    
+#     nxt = hmac = K_ENC.to_bytes((K_ENC.bit_length()+7)//8,byteorder="big") + K_HMAC.to_bytes((K_HMAC.bit_length()+7)//8,byteorder="big") + "MayTheForceBeWithYou".encode()
+#     K_NEXT = SHA3_256.new().update(nxt).digest()
+    
+#     return K_ENC, K_HMAC, K_NEXT
+
+    
+# h,s = SignatureGeneration(stuID,IKey_Pr)
+# PseudoSendMsg(h,s)
+
+# ks = None
+# knext = None
+
+# for i in range(5):
+#     message = ReqMsg(h,s)
+#     IDB = message[0]
+#     otkID = message[1]
+#     msgID = message[2]
+#     msg = message[3]
+#     EK_B_Pub = Point(int(message[4]),int(message[5]),E)
+#     OTK_A_Pr = OTKS[otkID][0]
+#     if i == 0:
+#         ks = sessionKeyGen(OTK_A_Pr,EK_B_Pub)
+#     else:
+#         ks = knext
+#     K_ENC, K_HMAC, knext = keyDerivationFunction(ks)
+    
+        
     
